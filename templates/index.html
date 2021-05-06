@@ -33,7 +33,7 @@
 <h2 class="d-flex justify-content-center mb-3">{{user_ticker_company_name}}</h2>
 
 {% if plot1 %}
-    <div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <button class="nav-link active" id="v-pills-line-tab" data-bs-toggle="pill" data-bs-target="#v-pills-line" type="button" role="tab" aria-controls="v-pills-line" aria-selected="true">Time Series</button>
     <button class="nav-link" id="v-pills-candle-tab" data-bs-toggle="pill" data-bs-target="#v-pills-candle" type="button" role="tab" aria-controls="v-pills-candle" aria-selected="false">Candlestick</button>
@@ -130,7 +130,57 @@
   </div>
 </div>
 {% endif %}
+<div class="d-flex justify-content-center">
+    <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
 
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+        <th scope="col">Price</th>
+        <th scope="col">Volume</th>
+        <th scope="col">RSI Value</th>
+        <th scope="col">Moving Average</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td scope="row">${{price}}</td>
+        <td>{{volume}}</td>
+        <td>{{rsi}}</td>
+        <td>{{average}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 </body>
 </html>

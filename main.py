@@ -29,12 +29,14 @@ def index():
     plot1 = create_line_plot(user_ticker, user_ticker_company_name)
     plot2 = create_candlestick_plot(user_ticker, user_ticker_company_name)
     plot3 = create_macd_plot(user_ticker, user_ticker_company_name)
-    plot4 = create_moving_average_plot(user_ticker, user_ticker_company_name)
-    plot5 = create_rsi_plot(user_ticker, user_ticker_company_name)
+    average, plot4 = create_moving_average_plot(user_ticker, user_ticker_company_name)
+    rsi, plot5 = create_rsi_plot(user_ticker, user_ticker_company_name)
     plot6 = create_comparison_plot(user_ticker, spy_ticker, user_ticker_company_name, spy_ticker_company_name)
-
+    volume = user_ticker['Volume'][-1]
+    price = user_ticker['Close'][-1]
     return render_template('index.html', plot1=plot1, plot2=plot2, plot3=plot3, plot4=plot4, plot5=plot5,
-                           plot6=plot6, user_ticker_company_name=user_ticker_company_name)
+                           plot6=plot6, user_ticker_company_name=user_ticker_company_name, price=price,
+                           volume=volume, rsi=rsi, average=average)
 
 
 def create_line_plot(user_ticker, user_ticker_company_name):
@@ -135,9 +137,9 @@ def create_moving_average_plot(user_ticker, user_ticker_company_name):
     )
 
     data = [trace0, trace1, trace2]
-
+    average = rolling_mean2[-1]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON
+    return average, graphJSON
 
 
 def create_rsi_plot(user_ticker, user_ticker_company_name):
@@ -173,11 +175,11 @@ def create_rsi_plot(user_ticker, user_ticker_company_name):
         line=dict(dash='dash'),
         name='Over Bought'
     )
-
+    rsi_last = user_ticker['RSI'][-1]
     data = [trace1, trace3, trace2]
 
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON
+    return rsi_last, graphJSON
 
 
 def create_comparison_plot(user_ticker, spy_ticker, user_ticker_company_name, spy_ticker_company_name):
