@@ -267,4 +267,4 @@ def increase_date_by_1(date):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
