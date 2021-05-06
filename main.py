@@ -32,11 +32,12 @@ def index():
     average, plot4 = create_moving_average_plot(user_ticker, user_ticker_company_name)
     rsi, plot5 = create_rsi_plot(user_ticker, user_ticker_company_name)
     plot6 = create_comparison_plot(user_ticker, spy_ticker, user_ticker_company_name, spy_ticker_company_name)
-    volume = user_ticker['Volume'].iloc[-1]
-    price = user_ticker['Close'].iloc[-1]
+    volume = round(user_ticker['Volume'].iloc[-1], 2)
+    price = round(user_ticker['Close'].iloc[-1], 2)
+    buy_sell = buy_or_sell(rsi)
     return render_template('index.html', plot1=plot1, plot2=plot2, plot3=plot3, plot4=plot4, plot5=plot5,
                            plot6=plot6, user_ticker_company_name=user_ticker_company_name, price=price,
-                           volume=volume, rsi=rsi, average=average)
+                           volume=volume, rsi=rsi, average=average, buy_sell=buy_sell)
 
 
 def create_line_plot(user_ticker, user_ticker_company_name):
@@ -138,7 +139,7 @@ def create_moving_average_plot(user_ticker, user_ticker_company_name):
     )
 
     data = [trace0, trace1, trace2]
-    average = rolling_mean.iloc[-1]
+    average = round(rolling_mean.iloc[-1], 2)
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     return average, graphJSON
 
@@ -176,7 +177,7 @@ def create_rsi_plot(user_ticker, user_ticker_company_name):
         line=dict(dash='dash'),
         name='Over Bought'
     )
-    rsi_last = user_ticker['RSI'][-1]
+    rsi_last = round(user_ticker['RSI'].iloc[-1], 2)
     data = [trace1, trace3, trace2]
 
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
@@ -209,6 +210,17 @@ def create_comparison_plot(user_ticker, spy_ticker, user_ticker_company_name, sp
 
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+
+def buy_or_sell(rsi):
+    if (rsi <= 100) & (rsi > 65):
+        return 'Bull Market - Recommended to Buy'
+    elif (rsi <= 65) & (rsi > 55):
+        return 'Bear Market - Recommended to Sell'
+    elif (rsi <= 55) & (rsi > 35):
+        return 'Bull Market - Recommended to Buy'
+    elif (rsi <= 35) & (rsi > 0):
+        return 'Bear Market - Recommended to Sell'
 
 
 def get_info(ticker, start, end):
