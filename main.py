@@ -32,8 +32,8 @@ def index():
     average, plot4 = create_moving_average_plot(user_ticker, user_ticker_company_name)
     rsi, plot5 = create_rsi_plot(user_ticker, user_ticker_company_name)
     plot6 = create_comparison_plot(user_ticker, spy_ticker, user_ticker_company_name, spy_ticker_company_name)
-    volume = user_ticker['Volume'][-1]
-    price = user_ticker['Close'][-1]
+    volume = user_ticker['Volume'].iloc[-1]
+    price = user_ticker['Close'].iloc[-1]
     return render_template('index.html', plot1=plot1, plot2=plot2, plot3=plot3, plot4=plot4, plot5=plot5,
                            plot6=plot6, user_ticker_company_name=user_ticker_company_name, price=price,
                            volume=volume, rsi=rsi, average=average)
@@ -116,6 +116,7 @@ def create_moving_average_plot(user_ticker, user_ticker_company_name):
     df = pd.DataFrame({'x': x, 'y': y})
     rolling_mean = df.y.rolling(window=30).mean()
     rolling_mean2 = df.y.rolling(window=60).mean()
+    print(type(rolling_mean))
 
     trace0 = go.Scatter(
         x=df['x'],
@@ -137,7 +138,7 @@ def create_moving_average_plot(user_ticker, user_ticker_company_name):
     )
 
     data = [trace0, trace1, trace2]
-    average = rolling_mean2[-1]
+    average = rolling_mean.iloc[-1]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     return average, graphJSON
 
