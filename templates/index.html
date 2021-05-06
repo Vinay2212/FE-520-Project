@@ -27,7 +27,7 @@
           <input type="date" class="form-control mb-2" name="end">
         </div>
         <div class="col-3">
-          <button type="submit" class="btn btn-primary mb-2">Search</button>
+          <button type="submit" class="btn btn-primary mb-2" onclick="check_dates(); return;">Search</button>
         </div>
       </div>
     </form>
@@ -161,5 +161,33 @@
     </div>
 </div>
 {% endif %}
+
+<script>
+function check_dates() {
+    var start = document.getElementsByName("start")[0].value;
+    var end = document.getElementsByName("end")[0].value;
+    if (start == '') {
+        return;
+    }
+
+    if (end == '') {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        end = today;
+    }
+
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 15) {
+        alert('Dates entered are less than 14 days. RSI value will not be accurate.')
+    }
+}
+</script>
 </body>
 </html>

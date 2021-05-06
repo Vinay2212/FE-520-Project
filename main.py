@@ -19,6 +19,10 @@ def index():
     start = request.form.get('start')
     end = request.form.get('end')
     data, user_ticker_company_name = get_info(ticker, start, end)
+
+    if data is False:
+        return render_template('index.html', user_ticker_company_name="Invalid Ticker")
+
     write_to_db(data)
     user_ticker = read_from_db()
 
@@ -153,7 +157,7 @@ def create_rsi_plot(user_ticker, user_ticker_company_name):
     rsi = ema_up / ema_down
     user_ticker['RSI'] = 100 - (100 / (1 + rsi))
 
-    user_ticker = user_ticker.iloc[14:]
+    # user_ticker = user_ticker.iloc[14:]
 
     x = user_ticker['Date']
     y = user_ticker['Close']
@@ -234,6 +238,9 @@ def get_info(ticker, start, end):
         data = stock.history(start=start)
     else:
         data = stock.history(period="max")
+
+    if data.empty:
+        return False, False  # no data and company name
 
     data.reset_index(level=0, inplace=True)
     data.drop(['Dividends', 'Stock Splits'], axis='columns', inplace=True)
