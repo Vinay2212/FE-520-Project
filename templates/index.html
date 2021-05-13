@@ -18,19 +18,19 @@
     <form action="/" method="post">
       <div class="row">
         <div class="col-3">
-          <input type="text" class="form-control mb-2" name="ticker" placeholder="Enter ticker...">
+          <input type="text" class="form-control mb-2" name="ticker" placeholder="Enter ticker..."  value={{ticker}}>
         </div>
           <div class="col-1">
           <label style="color:white">Start Date</label>
         </div>
         <div class="col-3">
-          <input type="date" class="form-control mb-3" name="start">
+          <input type="date" class="form-control mb-3" name="start" value={{start}}>
         </div>
           <div class="col-1">
           <label style="color:white">End Date</label>
         </div>
         <div class="col-3">
-          <input type="date" class="form-control mb-1" name="end">
+          <input type="date" class="form-control mb-1" name="end" value={{end}}>
         </div>
         <div class="col-1">
           <button type="submit" class="btn btn-primary mb-2" onclick="check_dates(); return;">Search</button>

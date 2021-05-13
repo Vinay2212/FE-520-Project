@@ -41,7 +41,7 @@ def index():
     buy_sell = buy_or_sell(rsi)
     return render_template('index.html', plot1=plot1, plot2=plot2, plot3=plot3, plot4=plot4, plot5=plot5,
                            plot6=plot6, user_ticker_company_name=user_ticker_company_name, price=price,
-                           volume=volume, rsi=rsi, average=average, buy_sell=buy_sell)
+                           volume=volume, rsi=rsi, average=average, buy_sell=buy_sell,ticker=ticker,start=start,end=end)
 
 
 def create_line_plot(user_ticker, user_ticker_company_name):
